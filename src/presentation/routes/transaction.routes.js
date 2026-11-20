@@ -61,6 +61,10 @@ const router = Router();
  *               categoryId:
  *                 type: integer
  *                 example: 3
+ *               isPrivate:
+ *                 type: boolean
+ *                 default: true
+ *                 description: Indica si el comprobante es privado
  *     responses:
  *       201:
  *         description: Transacción creada y convertida con el tipo de cambio del día
@@ -80,6 +84,28 @@ router.post("/", authMiddleware, transactionController.createTransaction);
  *         description: Lista de transacciones del usuario
  */
 router.get("/", authMiddleware, transactionController.getTransactionsByUserId);
+
+/**
+ * @swagger
+ * /transactions/{id}/public:
+ *   get:
+ *     summary: Consultar un comprobante público sin token
+ *     tags: [Transactions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Comprobante público
+ *       403:
+ *         description: La transacción es privada
+ *       404:
+ *         description: Transacción no encontrada
+ */
+router.get("/:id/public", transactionController.getPublicTransaction);
 
 /**
  * @swagger
@@ -109,6 +135,8 @@ router.get("/", authMiddleware, transactionController.getTransactionsByUserId);
  *                 type: string
  *               description:
  *                 type: string
+ *               isPrivate:
+ *                 type: boolean
  *     responses:
  *       200:
  *         description: Transacción actualizada

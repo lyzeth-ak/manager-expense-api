@@ -21,14 +21,6 @@ export default class CategoryMySQLRepository {
         return category.toJSON();
     }
 
-    async findByUserIdOrDefault(userId) {
-        return await CategoryModel.findAll({
-            where: {
-                [Op.or]: [{ isDefault: true }, { userId }]
-            }
-        });
-    }
-
     async findById(id) {
         const category = await CategoryModel.findByPk(id);
         return category ? category.toJSON() : null;

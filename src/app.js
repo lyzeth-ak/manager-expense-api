@@ -10,6 +10,7 @@ import authRoutes from './presentation/routes/auth.routes.js';
 import currencyRoutes from './presentation/routes/currency.routes.js';
 import categoryRoutes from './presentation/routes/category.routes.js';
 import transactionRoutes from './presentation/routes/transaction.routes.js';
+import walletRoutes from './presentation/routes/wallet.routes.js';
 import budgetRoutes from './presentation/routes/budget.routes.js';
 import reportRoutes from './presentation/routes/report.routes.js';
 
@@ -27,6 +28,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/currencies', currencyRoutes);
 app.use('/api/v1/categories', categoryRoutes);
 app.use('/api/v1/transactions', transactionRoutes);
+app.use('/api/v1/wallets', walletRoutes);
 app.use('/api/v1/budgets', budgetRoutes);
 app.use('/api/v1/reports', reportRoutes);
 

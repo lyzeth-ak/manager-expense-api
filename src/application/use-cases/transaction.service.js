@@ -11,6 +11,9 @@ export default class TransactionService {
     }
 
     async createTransaction(data) {
+        if (data.isPrivate !== undefined && typeof data.isPrivate !== "boolean") {
+            throw new Error("isPrivate must be a boolean");
+        }
         if (!data.type || !data.amount || !data.categoryId || !data.userId) {
             throw new Error("Type, amount, categoryId and userId are required");
         }
@@ -90,7 +93,18 @@ export default class TransactionService {
         return await this.transactionRepository.findByUserId(userId);
     }
 
+    async getPublicTransaction(id) {
+        const transaction = await this.transactionRepository.findById(id);
+        if (!transaction) return null;
+        if (transaction.isPrivate !== false) return false;
+        const { userId, ...receipt } = transaction;
+        return receipt;
+    }
+
     async updateTransaction(id, data, userId) {
+        if (data.isPrivate !== undefined && typeof data.isPrivate !== "boolean") {
+            throw new Error("isPrivate must be a boolean");
+        }
         const existing = await this.transactionRepository.findById(id);
         if (!existing) throw new Error("Transaction not found");
         if (existing.userId !== userId) {

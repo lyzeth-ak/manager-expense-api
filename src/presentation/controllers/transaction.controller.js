@@ -22,6 +22,17 @@ export default class TransactionController {
         }
     };
 
+    getPublicTransaction = async (req, res, next) => {
+        try {
+            const transaction = await this.transactionService.getPublicTransaction(req.params.id);
+            if (transaction === null) return res.status(404).json({ error: "Transaction not found" });
+            if (transaction === false) return res.status(403).json({ error: "Transaction is private" });
+            return res.status(200).json(transaction);
+        } catch (error) {
+            next(error);
+        }
+    };
+
     updateTransaction = async (req, res) => {
         const { id } = req.params;
         try {

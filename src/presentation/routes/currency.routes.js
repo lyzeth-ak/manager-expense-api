@@ -5,6 +5,7 @@ import CurrencyMongoRepository from "../../infrastructure/database/mongo/currenc
 import TransactionMySQLRepository from "../../infrastructure/database/mysql/transaction.mysql.repository.js";
 import AuditMySQLRepository from "../../infrastructure/database/mysql/audit.mysql.repository.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { roleMiddleware } from "../middlewares/role.middleware.js";
 
 // Inyección de dependencias
 const currencyRepository = new CurrencyMongoRepository();
@@ -64,7 +65,7 @@ router.get("/", authMiddleware, currencyController.getAllCurrencies);
  *       201:
  *         description: Tipo de cambio guardado exitosamente para la fecha indicada
  */
-router.post("/", authMiddleware, currencyController.saveCurrencyRateByDate);
+router.post("/", authMiddleware, roleMiddleware(["admin"]), currencyController.saveCurrencyRateByDate);
 
 /**
  * @swagger

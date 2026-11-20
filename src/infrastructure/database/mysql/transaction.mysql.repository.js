@@ -13,7 +13,8 @@ export const TransactionModel = sequelize.define("Transaction", {
     date: { type: DataTypes.DATEONLY, allowNull: false },
     categoryId: { type: DataTypes.INTEGER, allowNull: false },
     walletId: { type: DataTypes.INTEGER, allowNull: true },
-    userId: { type: DataTypes.STRING, allowNull: false }
+    userId: { type: DataTypes.STRING, allowNull: false },
+    isPrivate: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true }
 }, { timestamps: true });
 
 export default class TransactionMySQLRepository {
@@ -30,7 +31,8 @@ export default class TransactionMySQLRepository {
             date: txEntity.date,
             categoryId: txEntity.categoryId,
             walletId: txEntity.walletId,
-            userId: txEntity.userId
+            userId: txEntity.userId,
+            isPrivate: txEntity.isPrivate
         });
         return tx.toJSON();
     }
